@@ -64,8 +64,9 @@ We use 6 different collections in the database, listed here:
 
 The entire database is constructed on the fly, with the exception of the two indexes. After running one of the processing scripts, run these two commands in your mongodb database:
 
-db.item_avg.createIndex( { "winrate": 1 } )
-db.item_avg.createIndex( { "winrate": -1} )
+```db.item_avg.createIndex( { "winrate": 1 } )```
+
+```db.item_avg.createIndex( { "winrate": -1} )```
 
 ## Checklist for installing
 1. Install the requirements
