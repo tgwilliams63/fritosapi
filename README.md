@@ -4,15 +4,13 @@ Analyzing items and thowing stats at people
 
 ## Requirements
 1. Python 2.7
---* pymongo
---* Django 1.8
---* requests
+  * pymongo
+  * Django 1.8
+  * requests
 
 2. Mongodb
 
 3. Websever able to serve Django apps
-
-4. 
 
 ## Setup
 

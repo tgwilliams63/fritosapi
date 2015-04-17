@@ -1,7 +1,6 @@
 from pymongo import MongoClient
 import requests
 import json
-from pprint import pprint
 from ConfigParser import RawConfigParser
 import time
 import sys

@@ -4,7 +4,6 @@ from pymongo import MongoClient
 import json
 from ConfigParser import RawConfigParser
 import time
-from pprint import pprint
 from multiprocessing import Queue
 import sys
 
