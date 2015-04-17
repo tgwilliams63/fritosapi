@@ -55,12 +55,12 @@ The scripts are limited to an arbitrary number of matches, defined by the ```lim
 
 ## Database Layout Information
 We use 6 different collections in the database, listed here:
-*errored_matches - list of matches unable to be retrieved for processing
-*item_avg - the average statistics for each item; Has two indexes on the winrate key to sort it by ascending and descending order
-*item_buy_time - the count and winrate average of each item, separated by the minute it was bought
-*item_buys - the collection of the raw information contained in the timeline events of the matches. Don't drop this database. 
-*item_static - the item names and descriptions for the items we care about; makes it quicker to query than the Riot API
-*unprocessed_matches - the queue for keeping track of the match IDs we haven't worked with yet
+* ```errored_matches``` - list of matches unable to be retrieved for processing
+* ```item_avg``` - the average statistics for each item; Has two indexes on the winrate key to sort it by ascending and descending order
+* ```item_buy_time``` - the count and winrate average of each item, separated by the minute it was bought
+* ```item_buys``` - the collection of the raw information contained in the timeline events of the matches. Don't drop this database. 
+* ```item_static``` - the item names and descriptions for the items we care about; makes it quicker to query than the Riot API
+* ```unprocessed_matches``` - the queue for keeping track of the match IDs we haven't worked with yet
 
 The entire database is constructed on the fly, with the exception of the two indexes. After running one of the processing scripts, run these two commands in your mongodb database:
 
