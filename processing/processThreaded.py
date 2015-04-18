@@ -4,6 +4,7 @@ from pymongo import MongoClient
 import json
 from ConfigParser import RawConfigParser
 import time
+from pprint import pprint
 from multiprocessing import Queue
 import sys
 
@@ -149,7 +150,7 @@ if __name__ == "__main__":
 
 	api_url 		= "https://na.api.pvp.net"
 	match_api_url 	= "/api/lol/na/v2.2/match/"
-	limit 			= 1000
+	limit 			= 10000
 	workers			= 30
 	
 	###### Read from config file ######
@@ -321,24 +322,28 @@ if __name__ == "__main__":
 							   }
 				}]
 	
-	
+	print "Creating item_avg collection"
 	for x in m_db.item_buys.aggregate(pipeline):
 		item_avg.append(x)
 	
 	pipeline = [{	"$group" : {"_id": {"item_id": "$item_id", "minute_bought" : "$minute_bought"}, 
 								"count": {"$sum": 1},
-								"winrate": {"$avg" : "$game_won"}
-							   }
+								"winrate": {"$avg" : "$game_won"},
+								"item_id": {"$avg" : "$item_id"},
+								"minute_bought": {"$avg" : "$minute_bought"}}
 				}]
 	
+	print "Creating item_buy_time collection"
 	for x in m_db.item_buys.aggregate(pipeline):
 		item_buy_time.append(x)
 		
 	#drop item_avg databases
+	print "Inserting into item_avg"
 	m_db.item_avg.remove({})
-	
 	m_db.item_avg.insert(item_avg)
 	
+	
+	print "Inserting into item_buy_time"
 	m_db.item_buy_time.remove({})
 	m_db.item_buy_time.insert(item_buy_time)
 	

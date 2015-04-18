@@ -1,15 +1,15 @@
 from pymongo import MongoClient
 import requests
 import json
+from pprint import pprint
 from ConfigParser import RawConfigParser
 import time
 import sys
-from bson import SON
 
 
 api_url 		= "https://na.api.pvp.net"
 match_api_url 	= "/api/lol/na/v2.2/match/"
-limit 			= 1000
+limit 			= 1
 
 ###### Read from config file ######
 config			= RawConfigParser()
@@ -276,20 +276,22 @@ for record in unprocessed:
 		errored.append({"match_id" : record["match_id"]})
 
 
-#inset the item data
-if len(games_data) > 0:
-	m_db.item_buys.insert(games_data)
-
-#insert the errors
-if len(errored) > 0:
-	m_db.errored_matches.insert(errored)
-
-#remove the processed matches from the queue
-for mid in match_ids:
-	m_db.unprocessed_matches.remove({"match_id":mid})
+##inset the item data
+#if len(games_data) > 0:
+#	m_db.item_buys.insert(games_data)
+#
+##insert the errors
+#if len(errored) > 0:
+#	m_db.errored_matches.insert(errored)
+#
+##remove the processed matches from the queue
+#for mid in match_ids:
+#	m_db.unprocessed_matches.remove({"match_id":mid})
 
 
 #Data crunching time
+
+
 item_avg = []
 item_buy_time = []
 
@@ -307,24 +309,28 @@ pipeline = [{	"$group" : {"_id": "$item_id",
 						   }
 			}]
 
-
+print "Creating item_avg collection"
 for x in m_db.item_buys.aggregate(pipeline):
 	item_avg.append(x)
 
 pipeline = [{	"$group" : {"_id": {"item_id": "$item_id", "minute_bought" : "$minute_bought"}, 
 							"count": {"$sum": 1},
-							"winrate": {"$avg" : "$game_won"}
-						   }
+							"winrate": {"$avg" : "$game_won"},
+							"item_id": {"$avg" : "$item_id"},
+							"minute_bought": {"$avg" : "$minute_bought"}}
 			}]
 
+print "Creating item_buy_time collection"
 for x in m_db.item_buys.aggregate(pipeline):
 	item_buy_time.append(x)
 	
 #drop item_avg databases
+print "Inserting into item_avg"
 m_db.item_avg.remove({})
-
 m_db.item_avg.insert(item_avg)
 
+
+print "Inserting into item_buy_time"
 m_db.item_buy_time.remove({})
 m_db.item_buy_time.insert(item_buy_time)
 

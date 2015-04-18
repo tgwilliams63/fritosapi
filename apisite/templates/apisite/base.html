@@ -1,0 +1,61 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<script src="{% static "js/jquery-2.1.3.min.js" %}"></script>
+
+		{% block meta_info %}
+		    <meta charset="utf-8">
+		    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+		    <meta name="viewport" content="width=device-width, initial-scale=1">
+		    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		    <meta name="description" content="">
+		    <meta name="author" content="">
+		{% endblock %}
+
+		{% block bootstrap %}
+			<!-- Latest compiled and minified CSS -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+			<!-- Optional theme -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+			<!-- Latest compiled and minified JavaScript -->
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+			<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+			<!--[if lt IE 9]>
+				<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+				<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+			<![endif]-->
+		{% endblock %}
+
+		{% block d3js %}
+			<!-- Load c3.css -->
+			<link href="{% static "css/c3.css" %}" rel="stylesheet" type="text/css">
+
+			<!-- Load d3.js and c3.js -->
+			<script src="{% static "js/d3.min.js" %}" charset="utf-8"></script>
+			<script src="{% static "js/c3.min.js" %}" ></script>
+		{% endblock %}
+
+		{% block ps_links %}{% endblock %}
+		{% block ps_css %}{% endblock %}
+
+
+	</head>
+	<body>
+
+		{% block custom_js %}{% endblock %}
+
+		{% block content %}{% endblock %}
+
+
+		{% block tooltips %}
+			<script src="{% static "js/jquery.qtip.min.js" %}"></script>
+			<link rel="stylesheet" href="{% static "css/jquery.qtip.min.css" %}">
+		{% endblock %}
+	</body>
+
+</html>

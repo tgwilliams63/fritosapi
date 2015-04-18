@@ -1,0 +1,76 @@
+{% extends 'apisite/base.html' %}
+{% load staticfiles %}
+{% load apisite_extras %}
+
+{% block ps_links %}
+
+	{# <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script> #}
+	{# <script src="{% static "js/liquidFillGauge.js" %}" language="JavaScript"></script> #}
+	<script src="{% static "js/gauge_chart.js" %}" language="Javascript"></script>
+
+{% endblock %}
+
+{% block ps_css %}
+<style>
+	.col-md-1{
+		padding-bottom:5px;
+	}
+	.page-title{
+		padding: 40px 15px;
+		text-align: center;
+	}
+	.item_divs{
+		text-align: center;
+	}
+</style>
+{% endblock %}
+
+{% block custom_js %}
+
+	<script type="text/javascript">
+		// Create the tooltips only on document load
+		$(document).ready(function() 
+		{
+		   // Match all link elements with href attributes within the content div
+		   $('.item_images').qtip({
+		   	content: {
+		   		title: function(event, api) {
+		   			return $(this).attr('itemname');
+		   		},
+		   		attr: 'desc'
+		   	}
+		   });
+		});
+	</script>
+
+{% endblock %}
+
+{% block content %}
+
+	<div class="container-fluid">
+		<div id="index-title" class="page-title" title="This is the title?">
+			<h1>URF Item Statistics</h1>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			{% for item_id,winrate in item_list %}
+				<div class="col-md-2 item_divs">
+					<div id="item_{{item_id}}">
+						<script type="text/javascript">
+							gauge_chart('#item_{{item_id}}',{{winrate}},120)
+						</script>
+					</div>
+					<a href="{% url 'item_details' item_id %}">
+						<img class="item_images" src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/{{item_id}}.png' desc="{{item_desc|get_item:item_id|get_item:"desc"}}" itemname="{{item_desc|get_item:item_id|get_item:"name"}}" />
+					</a>
+				</div>
+
+			{% endfor %}
+		</div>
+	</div>
+
+
+
+{% endblock %}

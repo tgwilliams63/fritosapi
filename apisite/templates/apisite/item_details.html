@@ -1,0 +1,128 @@
+{% extends 'apisite/base.html' %}
+{% load staticfiles %}
+
+{% block ps_links %}
+
+	{# <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script> #}
+	<script src="{% static "js/line_graph.js" %}" language="Javascript"></script>
+	<script src="{% static "js/win_graph.js" %}" language="Javascript"></script>
+
+{% endblock %}
+
+{% block ps_css %}
+<style>
+	.container{
+		width:85%;
+	}
+	.col-md-1{
+		padding-bottom:5px;
+	}
+	.page-title{
+		padding: 40px 15px;
+		text-align: center;
+	}
+	.page-title-text{
+		text-align:center;
+	}
+	.cleared{
+		clear: both;
+	}
+	.graph1_div{
+		text-align:center;
+	}
+	.graph2_div{
+		padding-top:25px;
+		text-align:center;
+	}
+	.row-centered {
+    text-align:center;
+	}
+	.col-centered {
+	    display:inline-block;
+	    float:none;
+	    /* reset the text-align */
+	    /* inline-block space fix */
+	    margin-right:-4px;
+	}
+	.graph-title{
+		text-align:center;
+	}
+	.stats_divs{
+		text-align:left;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="page-title row row-centered">
+			<img class="item_images col-md-1 col-centered" src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/{{item_id}}.png' />
+			<h1 class="page-title-text col-md-3 col-centered">{{item_name}} Statistics</h1>
+			<img class="item_images col-md-1 col-centered" src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/{{item_id}}.png' />
+		</div>
+		<div class = "row row-centered">
+			<div class = "graph1_div col-md-6 col-centered">
+				<div>
+					<div>
+						<h4 class="graph-title">Number of Times Item Bought Per Minute</h4>
+					</div>
+					<div id = "buygraph">
+						<script type="text/javascript">
+							line_graph('#buygraph',{{buys_by_minute|safe}},250)
+						</script>
+					</div>
+				</div>
+			</div>
+			<div class = "stats_divs col-md-3 col-centered">
+				<div>
+					Kills per minute before buy: {{ kpmbb | floatformat:2}} kills per minute
+				</div>
+				<div>
+					Kills per minute after buy: {{ kpmab | floatformat:2}} kills per minute
+				</div>
+				<div>
+					Assists per minute before buy: {{ apmbb | floatformat:2}} assists per minute
+				</div>
+				<div>
+					Assists per minute after buy: {{ apmab | floatformat:2}} assists per minute
+				</div>
+				<div>
+					Deaths per minute before buy: {{ dpmbb | floatformat:2}} deaths per minute
+				</div>
+				<div>
+					Deaths per minute after buy: {{ dpmab | floatformat:2}} deaths per minute
+				</div>
+				<div>
+					Building Kills per minute before buy: {{ bpmbb | floatformat:2}} building kills per minute
+				</div>
+				<div>
+					Building Kills per minute after buy: {{ bpmab | floatformat:2}} building kills per minute
+				</div>
+
+				<br />
+
+				<div>
+					Delta kills per minute: {{ dkpm | floatformat:3}}
+				</div>
+				<div>
+					Delta assists per minute: {{ dapm | floatformat:3}}
+				</div>
+				<div>
+					Delta deaths per minute: {{ ddpm | floatformat:3}}
+				</div>
+				<div>
+					Delta building kills per minute: {{ dbpm | floatformat:3}}
+				</div>
+
+			</div>
+		</div>
+	<div class = "graph2_div row row-centered">
+		<div class="col-md-9 col-centered">
+			<h4 class="graph-title">Winrate When Bought at Certain Minutes</h4>
+			<div id = "wingraph">
+				<script type="text/javascript">
+					win_graph('#wingraph',{{winrate_by_minute|safe}},400)
+				</script>
+			</div>
+	</div>
+{% endblock %}
